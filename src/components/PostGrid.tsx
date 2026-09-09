@@ -66,7 +66,7 @@ export function PostGrid({
                     size={16}
                     className={cn(liked ? "fill-primary text-primary" : "text-primary/60")}
                   />
-                  {post.likeCount + (liked && !post.likeCountIncludesMe ? 0 : 0)}
+                  {post.likeCount}
                 </button>
               </div>
             </div>
