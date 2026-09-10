@@ -1,15 +1,26 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { signImageUrls, type PostCard } from "./posts.functions";
+import { POST_SELECT, signImageUrls, toCards, type PostCard, type PostRow } from "./posts.functions";
 
 export const getMyState = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     const { supabase, userId } = context;
-    const [{ data: likes }, { data: reviews }, { data: profile }] = await Promise.all([
+    const [
+      { data: likes },
+      { data: reviews },
+      { data: profile },
+      { data: following },
+      { count: followerCount },
+    ] = await Promise.all([
       supabase.from("likes").select("post_id").eq("user_id", userId),
       supabase.from("reviews").select("post_id,rating,body").eq("user_id", userId),
       supabase.from("profiles").select("display_name,avatar_url").eq("id", userId).maybeSingle(),
+      supabase.from("follows").select("following_id").eq("follower_id", userId),
+      supabase
+        .from("follows")
+        .select("id", { count: "exact", head: true })
+        .eq("following_id", userId),
     ]);
     return {
       userId,
@@ -21,6 +32,8 @@ export const getMyState = createServerFn({ method: "GET" })
       })),
       displayName: profile?.display_name ?? "BlushLuxe lid",
       avatarUrl: profile?.avatar_url ?? null,
+      followingIds: (following ?? []).map((f) => f.following_id),
+      followerCount: followerCount ?? 0,
     };
   });
 
@@ -184,4 +197,67 @@ export const listMyPosts = createServerFn({ method: "GET" })
       createdAt: row.created_at,
     }));
     return cards;
+  });
+
+export const toggleFollow = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: { userId: string }) => ({ userId: String(input.userId) }))
+  .handler(async ({ data, context }) => {
+    const { supabase, userId } = context;
+    if (data.userId === userId) throw new Error("Je kunt jezelf niet volgen.");
+    const { data: existing } = await supabase
+      .from("follows")
+      .select("id")
+      .eq("follower_id", userId)
+      .eq("following_id", data.userId)
+      .maybeSingle();
+    if (existing) {
+      const { error } = await supabase.from("follows").delete().eq("id", existing.id);
+      if (error) throw new Error(error.message);
+      return { following: false };
+    }
+    const { error } = await supabase
+      .from("follows")
+      .insert({ follower_id: userId, following_id: data.userId });
+    if (error) throw new Error(error.message);
+    return { following: true };
+  });
+
+export const listMyLikedPosts = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const { supabase, userId } = context;
+    const { data: likes } = await supabase
+      .from("likes")
+      .select("post_id,created_at")
+      .eq("user_id", userId)
+      .order("created_at", { ascending: false });
+    const ids = (likes ?? []).map((l) => l.post_id);
+    if (ids.length === 0) return [] as PostCard[];
+    const { data: rows, error } = await supabase.from("posts").select(POST_SELECT).in("id", ids);
+    if (error) throw new Error(error.message);
+    const cards = await toCards(supabase, rows as unknown as PostRow[]);
+    const order = new Map(ids.map((id, i) => [id, i]));
+    return cards.sort((a, b) => (order.get(a.id) ?? 0) - (order.get(b.id) ?? 0));
+  });
+
+export const listMyFollowing = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const { supabase, userId } = context;
+    const { data: rows } = await supabase
+      .from("follows")
+      .select("following_id")
+      .eq("follower_id", userId);
+    const ids = (rows ?? []).map((r) => r.following_id);
+    if (ids.length === 0) return [] as { id: string; displayName: string; avatarUrl: string | null }[];
+    const { data: profiles } = await supabase
+      .from("profiles")
+      .select("id,display_name,avatar_url")
+      .in("id", ids);
+    return (profiles ?? []).map((p) => ({
+      id: p.id,
+      displayName: p.display_name,
+      avatarUrl: p.avatar_url,
+    }));
   });
