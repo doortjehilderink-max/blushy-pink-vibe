@@ -26,7 +26,7 @@ export type PostReview = {
   avatarUrl: string | null;
 };
 
-type PostRow = {
+export type PostRow = {
   id: string;
   title: string;
   description: string | null;
@@ -39,7 +39,7 @@ type PostRow = {
   reviews: { rating: number }[] | null;
 };
 
-const POST_SELECT =
+export const POST_SELECT =
   "id,title,description,tags,author_name,user_id,image_url,created_at,likes(count),reviews(rating)";
 
 function publicClient(): SupabaseClient<Database> {
@@ -76,7 +76,7 @@ export async function signImageUrls(
   return map;
 }
 
-async function toCards(
+export async function toCards(
   client: SupabaseClient<Database>,
   rows: PostRow[] | null,
 ): Promise<PostCard[]> {
