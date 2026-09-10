@@ -179,3 +179,41 @@ export const getPostDetail = createServerFn({ method: "GET" })
 
     return { post: card!, reviews };
   });
+
+export const getUserProfile = createServerFn({ method: "GET" })
+  .inputValidator((input: { id: string }) => ({ id: String(input.id) }))
+  .handler(async ({ data }) => {
+    const client = publicClient();
+    const [{ data: profile }, { data: rows }, { count: followers }, { count: following }] =
+      await Promise.all([
+        client
+          .from("profiles")
+          .select("id,display_name,avatar_url,created_at")
+          .eq("id", data.id)
+          .maybeSingle(),
+        client
+          .from("posts")
+          .select(POST_SELECT)
+          .eq("user_id", data.id)
+          .order("created_at", { ascending: false })
+          .limit(60),
+        client
+          .from("follows")
+          .select("id", { count: "exact", head: true })
+          .eq("following_id", data.id),
+        client
+          .from("follows")
+          .select("id", { count: "exact", head: true })
+          .eq("follower_id", data.id),
+      ]);
+    if (!profile) return null;
+    const posts = await toCards(client, rows as unknown as PostRow[]);
+    return {
+      id: profile.id,
+      displayName: profile.display_name,
+      avatarUrl: profile.avatar_url,
+      followerCount: followers ?? 0,
+      followingCount: following ?? 0,
+      posts,
+    };
+  });
