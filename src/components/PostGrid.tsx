@@ -44,7 +44,17 @@ export function PostGrid({
               <Link to="/post/$id" params={{ id: post.id }}>
                 <h3 className="font-display text-lg leading-tight">{post.title}</h3>
               </Link>
-              <p className="text-xs text-muted-foreground">{post.authorName}</p>
+              {post.authorId ? (
+                <Link
+                  to="/user/$id"
+                  params={{ id: post.authorId }}
+                  className="block text-xs text-muted-foreground transition-colors hover:text-primary"
+                >
+                  {post.authorName}
+                </Link>
+              ) : (
+                <p className="text-xs text-muted-foreground">{post.authorName}</p>
+              )}
               <div className="flex items-center justify-between">
                 <span className="flex items-center gap-1 text-xs text-muted-foreground">
                   {post.averageRating !== null ? (
