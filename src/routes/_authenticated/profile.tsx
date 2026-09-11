@@ -142,6 +142,42 @@ function ProfilePage() {
           ))}
         </ul>
       )}
+
+      <h2 className="mb-3 mt-8 font-display text-2xl">Mijn hartjes</h2>
+      <PostGrid
+        posts={likedPosts.data ?? []}
+        likedIds={myState.data?.likedPostIds ?? []}
+        onToggleLike={(postId) => likeMutation.mutate(postId)}
+        emptyMessage="Je hebt nog geen hartjes gegeven."
+      />
+
+      <h2 className="mb-3 mt-8 font-display text-2xl">Ik volg</h2>
+      {(followingList.data?.length ?? 0) === 0 ? (
+        <p className="rounded-3xl border border-dashed border-border bg-card/60 px-6 py-8 text-center text-sm text-muted-foreground">
+          Je volgt nog niemand.
+        </p>
+      ) : (
+        <ul className="space-y-2">
+          {followingList.data?.map((member) => (
+            <li key={member.id}>
+              <Link
+                to="/user/$id"
+                params={{ id: member.id }}
+                className="flex items-center gap-3 rounded-2xl border border-border/70 bg-card px-4 py-3 text-sm transition-colors hover:bg-secondary"
+              >
+                <span className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-secondary font-display text-secondary-foreground">
+                  {member.avatarUrl ? (
+                    <img src={member.avatarUrl} alt={member.displayName} className="h-full w-full object-cover" />
+                  ) : (
+                    member.displayName.slice(0, 1).toUpperCase()
+                  )}
+                </span>
+                <span className="truncate">{member.displayName}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
     </AppShell>
   );
 }
