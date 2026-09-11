@@ -39,9 +39,19 @@ function ProfilePage() {
   const fetchMyPosts = useServerFn(listMyPosts);
   const saveProfile = useServerFn(updateProfile);
   const removePost = useServerFn(deletePost);
+  const fetchLiked = useServerFn(listMyLikedPosts);
+  const fetchFollowing = useServerFn(listMyFollowing);
+  const like = useServerFn(toggleLike);
 
   const myState = useQuery({ queryKey: ["my-state"], queryFn: () => fetchMyState() });
   const myPosts = useQuery({ queryKey: ["my-posts"], queryFn: () => fetchMyPosts() });
+  const likedPosts = useQuery({ queryKey: ["my-liked"], queryFn: () => fetchLiked() });
+  const followingList = useQuery({ queryKey: ["my-following"], queryFn: () => fetchFollowing() });
+
+  const likeMutation = useMutation({
+    mutationFn: (postId: string) => like({ data: { postId } }),
+    onSuccess: () => void queryClient.invalidateQueries(),
+  });
 
   const [name, setName] = useState("");
   useEffect(() => {
