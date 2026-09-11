@@ -84,7 +84,13 @@ function ProfilePage() {
 
   return (
     <AppShell>
-      <h1 className="mb-4 font-display text-3xl">Mijn profiel</h1>
+      <h1 className="mb-1 font-display text-3xl">Mijn profiel</h1>
+      <p className="mb-4 text-sm text-muted-foreground">
+        {myState.data?.followerCount ?? 0} volger{(myState.data?.followerCount ?? 0) === 1 ? "" : "s"} ·{" "}
+        {followingList.data?.length ?? 0} volgend · {likedPosts.data?.length ?? 0} hartje
+        {(likedPosts.data?.length ?? 0) === 1 ? "" : "s"}
+      </p>
+
 
       <section className="rounded-3xl border border-border/70 bg-card p-5 shadow-soft">
         <label className="text-xs uppercase tracking-wide text-muted-foreground">
