@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { Trash2 } from "lucide-react";
@@ -7,7 +7,15 @@ import { toast } from "sonner";
 import { AppShell } from "@/components/AppShell";
 import { PostGrid } from "@/components/PostGrid";
 import { supabase } from "@/integrations/supabase/client";
-import { deletePost, getMyState, listMyPosts, updateProfile } from "@/lib/community.functions";
+import {
+  deletePost,
+  getMyState,
+  listMyFollowing,
+  listMyLikedPosts,
+  listMyPosts,
+  toggleLike,
+  updateProfile,
+} from "@/lib/community.functions";
 
 export const Route = createFileRoute("/_authenticated/profile")({
   head: () => ({
