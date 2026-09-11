@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { Trash2 } from "lucide-react";
@@ -7,7 +7,15 @@ import { toast } from "sonner";
 import { AppShell } from "@/components/AppShell";
 import { PostGrid } from "@/components/PostGrid";
 import { supabase } from "@/integrations/supabase/client";
-import { deletePost, getMyState, listMyPosts, updateProfile } from "@/lib/community.functions";
+import {
+  deletePost,
+  getMyState,
+  listMyFollowing,
+  listMyLikedPosts,
+  listMyPosts,
+  toggleLike,
+  updateProfile,
+} from "@/lib/community.functions";
 
 export const Route = createFileRoute("/_authenticated/profile")({
   head: () => ({
@@ -31,9 +39,19 @@ function ProfilePage() {
   const fetchMyPosts = useServerFn(listMyPosts);
   const saveProfile = useServerFn(updateProfile);
   const removePost = useServerFn(deletePost);
+  const fetchLiked = useServerFn(listMyLikedPosts);
+  const fetchFollowing = useServerFn(listMyFollowing);
+  const like = useServerFn(toggleLike);
 
   const myState = useQuery({ queryKey: ["my-state"], queryFn: () => fetchMyState() });
   const myPosts = useQuery({ queryKey: ["my-posts"], queryFn: () => fetchMyPosts() });
+  const likedPosts = useQuery({ queryKey: ["my-liked"], queryFn: () => fetchLiked() });
+  const followingList = useQuery({ queryKey: ["my-following"], queryFn: () => fetchFollowing() });
+
+  const likeMutation = useMutation({
+    mutationFn: (postId: string) => like({ data: { postId } }),
+    onSuccess: () => void queryClient.invalidateQueries(),
+  });
 
   const [name, setName] = useState("");
   useEffect(() => {
@@ -66,7 +84,13 @@ function ProfilePage() {
 
   return (
     <AppShell>
-      <h1 className="mb-4 font-display text-3xl">Mijn profiel</h1>
+      <h1 className="mb-1 font-display text-3xl">Mijn profiel</h1>
+      <p className="mb-4 text-sm text-muted-foreground">
+        {myState.data?.followerCount ?? 0} volger{(myState.data?.followerCount ?? 0) === 1 ? "" : "s"} ·{" "}
+        {followingList.data?.length ?? 0} volgend · {likedPosts.data?.length ?? 0} hartje
+        {(likedPosts.data?.length ?? 0) === 1 ? "" : "s"}
+      </p>
+
 
       <section className="rounded-3xl border border-border/70 bg-card p-5 shadow-soft">
         <label className="text-xs uppercase tracking-wide text-muted-foreground">
@@ -114,6 +138,42 @@ function ProfilePage() {
               >
                 <Trash2 size={16} /> Verwijderen
               </button>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <h2 className="mb-3 mt-8 font-display text-2xl">Mijn hartjes</h2>
+      <PostGrid
+        posts={likedPosts.data ?? []}
+        likedIds={myState.data?.likedPostIds ?? []}
+        onToggleLike={(postId) => likeMutation.mutate(postId)}
+        emptyMessage="Je hebt nog geen hartjes gegeven."
+      />
+
+      <h2 className="mb-3 mt-8 font-display text-2xl">Ik volg</h2>
+      {(followingList.data?.length ?? 0) === 0 ? (
+        <p className="rounded-3xl border border-dashed border-border bg-card/60 px-6 py-8 text-center text-sm text-muted-foreground">
+          Je volgt nog niemand.
+        </p>
+      ) : (
+        <ul className="space-y-2">
+          {followingList.data?.map((member) => (
+            <li key={member.id}>
+              <Link
+                to="/user/$id"
+                params={{ id: member.id }}
+                className="flex items-center gap-3 rounded-2xl border border-border/70 bg-card px-4 py-3 text-sm transition-colors hover:bg-secondary"
+              >
+                <span className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-secondary font-display text-secondary-foreground">
+                  {member.avatarUrl ? (
+                    <img src={member.avatarUrl} alt={member.displayName} className="h-full w-full object-cover" />
+                  ) : (
+                    member.displayName.slice(0, 1).toUpperCase()
+                  )}
+                </span>
+                <span className="truncate">{member.displayName}</span>
+              </Link>
             </li>
           ))}
         </ul>
