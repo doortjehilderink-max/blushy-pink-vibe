@@ -9,3 +9,4 @@
 - [x] Blush-foto van gebruiker als rond beeldmerk in header en inlogscherm
 - [x] Voorbeeldfoto's zodat het raster gevuld is
 - [x] Volgen + hartjes zichtbaar op eigen profiel
+- [ ] 50 extra aesthetic foto's in allerlei kleuren toevoegen en controleren
