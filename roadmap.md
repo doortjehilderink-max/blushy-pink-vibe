@@ -10,3 +10,4 @@
 - [x] Voorbeeldfoto's zodat het raster gevuld is
 - [x] Volgen + hartjes zichtbaar op eigen profiel
 - [ ] 50 extra aesthetic foto's in allerlei kleuren toevoegen en controleren
+- [ ] Controleren dat leden elkaar kunnen volgen
