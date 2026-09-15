@@ -271,20 +271,20 @@ export const listMembers = createServerFn({ method: "GET" }).handler(async () =>
     .select("id,display_name,avatar_url,created_at")
     .order("created_at", { ascending: false });
   if (error) throw new Error(error.message);
-  return (profiles ?? []).map((p) => ({
+  return (profiles ?? []).map((p: { id: string; display_name: string; avatar_url: string | null }) => ({
     id: p.id,
     displayName: p.display_name,
     avatarUrl: p.avatar_url,
   }));
 });
 
-function publicClient() {
+function publicClient(): SupabaseClient<Database> {
   const url = process.env["SUPABASE_URL"]!;
   const key = process.env["SUPABASE_PUBLISHABLE_KEY"]!;
   return createClient<Database>(url, key, {
     auth: { persistSession: false, autoRefreshToken: false },
     global: {
-      fetch: (input, init) => {
+      fetch: (input: RequestInfo | URL, init?: RequestInit) => {
         const headers = new Headers(init?.headers);
         if (key.startsWith("sb_") && headers.get("Authorization") === `Bearer ${key}`) {
           headers.delete("Authorization");
