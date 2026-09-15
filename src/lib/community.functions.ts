@@ -261,3 +261,35 @@ export const listMyFollowing = createServerFn({ method: "GET" })
       avatarUrl: p.avatar_url,
     }));
   });
+
+export const listMembers = createServerFn({ method: "GET" }).handler(async () => {
+  const client = publicClient();
+  const { data: profiles, error } = await client
+    .from("profiles")
+    .select("id,display_name,avatar_url,created_at")
+    .order("created_at", { ascending: false });
+  if (error) throw new Error(error.message);
+  return (profiles ?? []).map((p) => ({
+    id: p.id,
+    displayName: p.display_name,
+    avatarUrl: p.avatar_url,
+  }));
+});
+
+function publicClient() {
+  const url = process.env["SUPABASE_URL"]!;
+  const key = process.env["SUPABASE_PUBLISHABLE_KEY"]!;
+  return createClient<Database>(url, key, {
+    auth: { persistSession: false, autoRefreshToken: false },
+    global: {
+      fetch: (input, init) => {
+        const headers = new Headers(init?.headers);
+        if (key.startsWith("sb_") && headers.get("Authorization") === `Bearer ${key}`) {
+          headers.delete("Authorization");
+        }
+        headers.set("apikey", key);
+        return fetch(input, { ...init, headers });
+      },
+    },
+  });
+}
