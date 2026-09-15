@@ -60,18 +60,16 @@ function publicClient(): SupabaseClient<Database> {
   });
 }
 
+// Images are served from our own origin (/api/public/img/<path>) so they never
+// expire and are not blocked by networks that block the storage domain.
 export async function signImageUrls(
-  client: SupabaseClient<Database>,
+  _client: SupabaseClient<Database>,
   paths: string[],
 ): Promise<Map<string, string>> {
   const map = new Map<string, string>();
-  const storagePaths = [...new Set(paths.filter((p) => p && !p.startsWith("http")))];
-  if (storagePaths.length === 0) return map;
-  const { data } = await client.storage
-    .from("post-images")
-    .createSignedUrls(storagePaths, 60 * 60 * 24 * 7);
-  for (const item of data ?? []) {
-    if (item.signedUrl && item.path) map.set(item.path, item.signedUrl);
+  for (const p of paths) {
+    if (!p || p.startsWith("http")) continue;
+    map.set(p, `/api/public/img/${p.split("/").map(encodeURIComponent).join("/")}`);
   }
   return map;
 }
