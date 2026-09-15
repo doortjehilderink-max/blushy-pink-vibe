@@ -11,3 +11,4 @@
 - [x] Volgen + hartjes zichtbaar op eigen profiel
 - [x] 50 extra aesthetic foto's in allerlei kleuren toevoegen en controleren
 - [x] Controleren dat leden elkaar kunnen volgen
+- [ ] 'Made with Lovable'-badge verbergen
