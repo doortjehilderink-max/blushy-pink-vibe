@@ -11,6 +11,28 @@ import { getPostDetail } from "@/lib/posts.functions";
 import { deleteReview, getMyState, saveReview, toggleLike } from "@/lib/community.functions";
 import { cn } from "@/lib/utils";
 
+function AuthorLink({
+  name,
+  userId,
+}: {
+  name: string;
+  userId: string | null;
+}) {
+  if (!userId) return <p className="text-sm text-muted-foreground">door {name}</p>;
+  return (
+    <p className="text-sm text-muted-foreground">
+      door{" "}
+      <Link
+        to="/user/$id"
+        params={{ id: userId }}
+        className="text-primary transition-colors hover:underline"
+      >
+        {name}
+      </Link>
+    </p>
+  );
+}
+
 const detailQuery = (id: string) =>
   queryOptions({
     queryKey: ["post", id],
@@ -128,7 +150,7 @@ function PostDetail() {
         <img src={post.imageUrl} alt={post.title} className="w-full object-cover" />
         <div className="space-y-3 p-5">
           <h1 className="font-display text-3xl leading-tight">{post.title}</h1>
-          <p className="text-sm text-muted-foreground">door {post.authorName}</p>
+          <AuthorLink name={post.authorName} userId={post.authorId} />
           {post.description && <p className="text-sm leading-relaxed">{post.description}</p>}
           {post.tags.length > 0 && (
             <ul className="flex flex-wrap gap-2">

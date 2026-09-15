@@ -1,12 +1,13 @@
 import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
-import { Compass, Search, PlusCircle, User } from "lucide-react";
+import { Compass, Search, PlusCircle, Users, User } from "lucide-react";
 import { BrandMark } from "@/components/BrandMark";
 
 const NAV = [
   { to: "/", label: "Ontdek", icon: Compass },
   { to: "/search", label: "Zoeken", icon: Search },
   { to: "/upload", label: "Plaatsen", icon: PlusCircle },
+  { to: "/members", label: "Leden", icon: Users },
   { to: "/profile", label: "Profiel", icon: User },
 ] as const;
 
