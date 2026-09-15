@@ -1,7 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import type { Database } from "@/integrations/supabase/types";
 import { POST_SELECT, signImageUrls, toCards, type PostCard, type PostRow } from "./posts.functions";
 
 export const getMyState = createServerFn({ method: "GET" })
@@ -265,8 +263,8 @@ export const listMyFollowing = createServerFn({ method: "GET" })
   });
 
 export const listMembers = createServerFn({ method: "GET" }).handler(async () => {
-  const client = publicClient();
-  const { data: profiles, error } = await client
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  const { data: profiles, error } = await supabaseAdmin
     .from("profiles")
     .select("id,display_name,avatar_url,created_at")
     .order("created_at", { ascending: false });
@@ -277,21 +275,3 @@ export const listMembers = createServerFn({ method: "GET" }).handler(async () =>
     avatarUrl: p.avatar_url,
   }));
 });
-
-function publicClient(): SupabaseClient<Database> {
-  const url = process.env["SUPABASE_URL"]!;
-  const key = process.env["SUPABASE_PUBLISHABLE_KEY"]!;
-  return createClient<Database>(url, key, {
-    auth: { persistSession: false, autoRefreshToken: false },
-    global: {
-      fetch: (input: RequestInfo | URL, init?: RequestInit) => {
-        const headers = new Headers(init?.headers);
-        if (key.startsWith("sb_") && headers.get("Authorization") === `Bearer ${key}`) {
-          headers.delete("Authorization");
-        }
-        headers.set("apikey", key);
-        return fetch(input, { ...init, headers });
-      },
-    },
-  });
-}
