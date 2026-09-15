@@ -1,7 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import type { Database } from "@/integrations/supabase/types";
 import { POST_SELECT, signImageUrls, toCards, type PostCard, type PostRow } from "./posts.functions";
 
 export const getMyState = createServerFn({ method: "GET" })
