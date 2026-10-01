@@ -74,8 +74,8 @@ function Discover() {
     onError: () => toast.error("Dat lukte niet, probeer het opnieuw."),
   });
 
-  const list = posts ?? [];
-  const hasMore = list.length >= limit && list.length < 60;
+  const list = more.data ?? firstPage;
+  const hasMore = list.length >= limit && limit < 60;
 
   return (
     <AppShell>
@@ -114,11 +114,11 @@ function Discover() {
         <div className="mt-6 flex justify-center">
           <button
             type="button"
-            disabled={isFetching}
+            disabled={more.isFetching}
             onClick={() => setLimit((current) => Math.min(current + POSTS_PAGE_SIZE, 60))}
             className="rounded-full border border-border bg-card px-6 py-2.5 text-sm font-medium text-foreground shadow-soft transition-colors hover:bg-secondary disabled:opacity-60"
           >
-            {isFetching ? "Even geduld..." : "Nog tien foto's"}
+            {more.isFetching ? "Even geduld..." : "Nog tien foto's"}
           </button>
         </div>
       )}
