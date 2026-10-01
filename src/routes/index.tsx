@@ -45,8 +45,14 @@ export const Route = createFileRoute("/")({
 });
 
 function Discover() {
+  // The first screen always comes from the loader-backed query, so the server and
+  // the browser render exactly the same list. Extra photos load on the client only.
+  const { data: firstPage } = useSuspenseQuery(postsQuery(POSTS_PAGE_SIZE));
   const [limit, setLimit] = useState(POSTS_PAGE_SIZE);
-  const { data: posts, isFetching } = useQuery(postsQuery(limit));
+  const more = useQuery({
+    ...postsQuery(limit),
+    enabled: limit > POSTS_PAGE_SIZE,
+  });
   const { user } = useAuthUser();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
