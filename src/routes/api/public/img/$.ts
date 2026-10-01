@@ -28,8 +28,8 @@ export const Route = createFileRoute("/api/public/img/$")({
               });
             }
             if (error) {
-              const status = Number((error as { statusCode?: number }).statusCode ?? 0);
-              if (status === 400 || status === 404) {
+              const code = String((error as unknown as { statusCode?: number | string }).statusCode ?? "");
+              if (code === "400" || code === "404") {
                 return new Response("Not found", { status: 404 });
               }
             }
