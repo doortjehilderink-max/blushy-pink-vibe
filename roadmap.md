@@ -14,3 +14,5 @@
 - [x] 'Made with Lovable'-badge verbergen (verwijderd uit app-code; badge op live site vereist Pro-plan)
 - [x] Ontdek toont tien foto's met knop 'Nog tien foto's'
 - [x] Foto-links geven nooit meer een foutmelding: bij een tijdelijk probleem wordt opnieuw geprobeerd, anders een nette 'niet gevonden'
+- [ ] Alle 56 voorbeeldfoto's vervangen door beautyproducten
+- [ ] Alle 56 voorbeeldberichten luxe productnamen in hoofdletters geven
