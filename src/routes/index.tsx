@@ -1,18 +1,27 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { queryOptions, useMutation, useQuery, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import {
+  keepPreviousData,
+  queryOptions,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
+import { useState } from "react";
 import { toast } from "sonner";
 import { AppShell } from "@/components/AppShell";
 import { BrandMark } from "@/components/BrandMark";
 import { PostGrid } from "@/components/PostGrid";
 import { useAuthUser } from "@/hooks/useAuthUser";
-import { listPosts } from "@/lib/posts.functions";
+import { POSTS_PAGE_SIZE, listPosts } from "@/lib/posts.functions";
 import { getMyState, toggleLike } from "@/lib/community.functions";
 
-const postsQuery = queryOptions({
-  queryKey: ["posts", "feed"],
-  queryFn: () => listPosts(),
-});
+const postsQuery = (limit: number) =>
+  queryOptions({
+    queryKey: ["posts", "feed", limit],
+    queryFn: () => listPosts({ data: { limit } }),
+    placeholderData: keepPreviousData,
+  });
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -30,12 +39,13 @@ export const Route = createFileRoute("/")({
       },
     ],
   }),
-  loader: ({ context }) => context.queryClient.ensureQueryData(postsQuery),
+  loader: ({ context }) => context.queryClient.ensureQueryData(postsQuery(POSTS_PAGE_SIZE)),
   component: Discover,
 });
 
 function Discover() {
-  const { data: posts } = useSuspenseQuery(postsQuery);
+  const [limit, setLimit] = useState(POSTS_PAGE_SIZE);
+  const { data: posts, isFetching } = useQuery(postsQuery(limit));
   const { user } = useAuthUser();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -56,6 +66,9 @@ function Discover() {
     },
     onError: () => toast.error("Dat lukte niet, probeer het opnieuw."),
   });
+
+  const list = posts ?? [];
+  const hasMore = list.length >= limit && list.length < 60;
 
   return (
     <AppShell>
@@ -78,7 +91,7 @@ function Discover() {
 
       <h2 className="mb-3 font-display text-2xl">Ontdek</h2>
       <PostGrid
-        posts={posts}
+        posts={list}
         likedIds={myState.data?.likedPostIds ?? []}
         onToggleLike={(postId) => {
           if (!user) {
@@ -89,6 +102,19 @@ function Discover() {
         }}
         emptyMessage="Nog geen posts. Plaats de eerste foto!"
       />
+
+      {hasMore && (
+        <div className="mt-6 flex justify-center">
+          <button
+            type="button"
+            disabled={isFetching}
+            onClick={() => setLimit((current) => Math.min(current + POSTS_PAGE_SIZE, 60))}
+            className="rounded-full border border-border bg-card px-6 py-2.5 text-sm font-medium text-foreground shadow-soft transition-colors hover:bg-secondary disabled:opacity-60"
+          >
+            {isFetching ? "Even geduld..." : "Nog tien foto's"}
+          </button>
+        </div>
+      )}
     </AppShell>
   );
 }

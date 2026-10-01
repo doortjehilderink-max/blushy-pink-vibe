@@ -103,16 +103,26 @@ export async function toCards(
   });
 }
 
-export const listPosts = createServerFn({ method: "GET" }).handler(async () => {
-  const client = publicClient();
-  const { data, error } = await client
-    .from("posts")
-    .select(POST_SELECT)
-    .order("created_at", { ascending: false })
-    .limit(60);
-  if (error) throw new Error(error.message);
-  return toCards(client, data as unknown as PostRow[]);
-});
+export const POSTS_PAGE_SIZE = 10;
+
+export const listPosts = createServerFn({ method: "GET" })
+  .inputValidator((input: { limit?: number } = {}) => {
+    const requested = Number(input?.limit ?? POSTS_PAGE_SIZE);
+    const limit = Number.isFinite(requested)
+      ? Math.min(Math.max(Math.round(requested), 1), 60)
+      : POSTS_PAGE_SIZE;
+    return { limit };
+  })
+  .handler(async ({ data }) => {
+    const client = publicClient();
+    const { data: rows, error } = await client
+      .from("posts")
+      .select(POST_SELECT)
+      .order("created_at", { ascending: false })
+      .limit(data.limit);
+    if (error) throw new Error(error.message);
+    return toCards(client, rows as unknown as PostRow[]);
+  });
 
 export const searchPosts = createServerFn({ method: "GET" })
   .inputValidator((input: { q: string }) => ({ q: String(input?.q ?? "").slice(0, 80) }))
