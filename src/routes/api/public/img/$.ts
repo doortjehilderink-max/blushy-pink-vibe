@@ -1,5 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 
+async function downloadOnce(path: string) {
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  return supabaseAdmin.storage.from("post-images").download(path);
+}
+
 export const Route = createFileRoute("/api/public/img/$")({
   server: {
     handlers: {
@@ -9,19 +14,36 @@ export const Route = createFileRoute("/api/public/img/$")({
           return new Response("Not found", { status: 404 });
         }
 
-        const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-        const { data, error } = await supabaseAdmin.storage.from("post-images").download(path);
-        if (error || !data) {
-          return new Response("Not found", { status: 404 });
+        // A storage hiccup (cold start, brief network failure) must never bubble
+        // up as a 500: try once more, then answer with a plain 404.
+        for (let attempt = 0; attempt < 2; attempt += 1) {
+          try {
+            const { data, error } = await downloadOnce(path);
+            if (!error && data) {
+              return new Response(data, {
+                headers: {
+                  "content-type": data.type || "image/jpeg",
+                  "cache-control": "public, max-age=31536000, immutable",
+                },
+              });
+            }
+            if (error) {
+              const code = String((error as unknown as { statusCode?: number | string }).statusCode ?? "");
+              if (code === "400" || code === "404") {
+                return new Response("Not found", { status: 404 });
+              }
+            }
+          } catch {
+            // fall through to the retry / final 404 below
+          }
         }
 
-        return new Response(data, {
-          headers: {
-            "content-type": data.type || "image/jpeg",
-            "cache-control": "public, max-age=31536000, immutable",
-          },
+        return new Response("Not found", {
+          status: 404,
+          headers: { "cache-control": "no-store" },
         });
       },
     },
   },
 });
+
