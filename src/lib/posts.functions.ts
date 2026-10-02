@@ -103,7 +103,7 @@ export async function toCards(
   });
 }
 
-export const POSTS_PAGE_SIZE = 10;
+export const POSTS_PAGE_SIZE = 11;
 
 export const listPosts = createServerFn({ method: "GET" })
   .inputValidator((input: { limit?: number } = {}) => {

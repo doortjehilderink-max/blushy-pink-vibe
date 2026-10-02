@@ -75,7 +75,8 @@ function Discover() {
   });
 
   const list = more.data ?? firstPage;
-  const hasMore = list.length >= limit && limit < 60;
+  const MAX_FEED = 66; // zes pagina's van elf foto's
+  const hasMore = list.length >= limit && limit < MAX_FEED;
 
   return (
     <AppShell>
