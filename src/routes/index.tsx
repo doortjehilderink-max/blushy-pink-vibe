@@ -75,7 +75,7 @@ function Discover() {
   });
 
   const list = more.data ?? firstPage;
-  const MAX_FEED = 66; // zes pagina's van elf foto's
+  const MAX_FEED = 72; // zes pagina's van twaalf foto's
   const hasMore = list.length >= limit && limit < MAX_FEED;
 
   return (
