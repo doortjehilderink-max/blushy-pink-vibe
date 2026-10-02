@@ -12,7 +12,7 @@
 - [x] 50 extra aesthetic foto's in allerlei kleuren toevoegen en controleren
 - [x] Controleren dat leden elkaar kunnen volgen
 - [x] 'Made with Lovable'-badge verbergen (verwijderd uit app-code; badge op live site vereist Pro-plan)
-- [x] Ontdek toont elf foto's per keer met knop 'Nog elf foto's'
+- [x] Ontdek toont twaalf foto's per keer met knop 'Nog twaalf foto's'
 - [x] Foto-links geven nooit meer een foutmelding: bij een tijdelijk probleem wordt opnieuw geprobeerd, anders een nette 'niet gevonden'
 - [x] Alle 56 voorbeeldfoto's vervangen door beautyproducten
 - [x] Alle 56 voorbeeldberichten luxe productnamen in hoofdletters geven
