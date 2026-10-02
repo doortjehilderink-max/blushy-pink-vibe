@@ -75,7 +75,8 @@ function Discover() {
   });
 
   const list = more.data ?? firstPage;
-  const hasMore = list.length >= limit && limit < 60;
+  const MAX_FEED = 66; // zes pagina's van elf foto's
+  const hasMore = list.length >= limit && limit < MAX_FEED;
 
   return (
     <AppShell>
@@ -115,10 +116,10 @@ function Discover() {
           <button
             type="button"
             disabled={more.isFetching}
-            onClick={() => setLimit((current) => Math.min(current + POSTS_PAGE_SIZE, 60))}
+            onClick={() => setLimit((current) => Math.min(current + POSTS_PAGE_SIZE, MAX_FEED))}
             className="rounded-full border border-border bg-card px-6 py-2.5 text-sm font-medium text-foreground shadow-soft transition-colors hover:bg-secondary disabled:opacity-60"
           >
-            {more.isFetching ? "Even geduld..." : "Nog tien foto's"}
+            {more.isFetching ? "Even geduld..." : "Nog elf foto's"}
           </button>
         </div>
       )}
