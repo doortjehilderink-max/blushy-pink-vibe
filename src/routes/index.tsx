@@ -27,13 +27,13 @@ const postsQuery = (limit: number) =>
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "BlushLuxe — roze beauty-community vol inspiratie" },
+      { title: "Vør — roze beauty-community vol inspiratie" },
       {
         name: "description",
         content:
           "Ontdek zachte roze beauty-inspiratie, deel je eigen foto's, geef hartjes en lees reviews met sterren.",
       },
-      { property: "og:title", content: "BlushLuxe — roze beauty-community" },
+      { property: "og:title", content: "Vør — roze beauty-community" },
       {
         property: "og:description",
         content: "Deel foto's, geef hartjes en schrijf reviews in een verfijnde roze community.",

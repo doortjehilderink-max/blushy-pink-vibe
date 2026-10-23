@@ -11,12 +11,12 @@ import { createPost } from "@/lib/community.functions";
 export const Route = createFileRoute("/_authenticated/upload")({
   head: () => ({
     meta: [
-      { title: "Foto plaatsen — BlushLuxe" },
+      { title: "Foto plaatsen — Vør" },
       {
         name: "description",
-        content: "Deel je eigen beautyfoto met titel, omschrijving en tags op BlushLuxe.",
+        content: "Deel je eigen beautyfoto met titel, omschrijving en tags op Vør.",
       },
-      { property: "og:title", content: "Foto plaatsen op BlushLuxe" },
+      { property: "og:title", content: "Foto plaatsen op Vør" },
       { property: "og:description", content: "Deel je beautymoment met de community." },
     ],
   }),

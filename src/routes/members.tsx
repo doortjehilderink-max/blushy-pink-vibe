@@ -7,12 +7,12 @@ import { listMembers } from "@/lib/community.functions";
 export const Route = createFileRoute("/members")({
   head: () => ({
     meta: [
-      { title: "Leden — BlushLuxe" },
+      { title: "Leden — Vør" },
       {
         name: "description",
-        content: "Ontdek andere BlushLuxe-leden en volg wie je inspireert.",
+        content: "Ontdek andere Vør-leden en volg wie je inspireert.",
       },
-      { property: "og:title", content: "Leden op BlushLuxe" },
+      { property: "og:title", content: "Leden op Vør" },
       {
         property: "og:description",
         content: "Ontdek en volg andere leden in de roze community.",

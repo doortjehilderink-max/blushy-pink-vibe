@@ -12,7 +12,7 @@ export function BrandMark({ className, size = 40 }: { className?: string; size?:
     >
       <img
         src={brandMark.url}
-        alt="BlushLuxe beeldmerk: een verzameling roze blushes"
+        alt="Vør beeldmerk: een verzameling roze blushes"
         width={size}
         height={size}
         className="h-full w-full object-cover"
