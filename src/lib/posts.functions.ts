@@ -181,7 +181,7 @@ export const getPostDetail = createServerFn({ method: "GET" })
       rating: r.rating,
       body: r.body,
       createdAt: r.created_at,
-      authorName: profileMap.get(r.user_id)?.display_name ?? "BlushLuxe lid",
+      authorName: profileMap.get(r.user_id)?.display_name ?? "Vør lid",
       avatarUrl: profileMap.get(r.user_id)?.avatar_url ?? null,
     }));
 
