@@ -84,8 +84,7 @@ function Discover() {
         <BrandMark size={88} className="mb-3" />
         <h1 className="font-display text-3xl">Jouw plek, jouw idee</h1>
         <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
-          Verzamel je mooiste beautymomenten, geef hartjes aan wat je inspireert en deel je
-          eerlijke sterren en reviews.
+          Zet neer wat jij wilt delen en kijk naar de ideeën van andere mensen.
         </p>
         {!user && (
           <Link
