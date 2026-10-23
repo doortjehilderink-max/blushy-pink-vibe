@@ -1,4 +1,4 @@
-import brandMark from "@/assets/blushluxe-mark.jpg.asset.json";
+import brandMark from "@/assets/vor-mark.jpg";
 import { cn } from "@/lib/utils";
 
 export function BrandMark({ className, size = 40 }: { className?: string; size?: number }) {
@@ -11,8 +11,8 @@ export function BrandMark({ className, size = 40 }: { className?: string; size?:
       style={{ width: size, height: size }}
     >
       <img
-        src={brandMark.url}
-        alt="Vør beeldmerk: een verzameling roze blushes"
+        src={brandMark}
+        alt="Vør beeldmerk: meisje met blond haar en een roze bloem"
         width={size}
         height={size}
         className="h-full w-full object-cover"
