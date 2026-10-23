@@ -82,7 +82,7 @@ function Discover() {
     <AppShell>
       <section className="mb-6 rounded-[2rem] border border-border/70 bg-card/80 p-6 text-center shadow-soft">
         <BrandMark size={88} className="mb-3" />
-        <h1 className="font-display text-3xl">Zacht, roze en helemaal van jou</h1>
+        <h1 className="font-display text-3xl">Jouw plek, jouw idee</h1>
         <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
           Verzamel je mooiste beautymomenten, geef hartjes aan wat je inspireert en deel je
           eerlijke sterren en reviews.
