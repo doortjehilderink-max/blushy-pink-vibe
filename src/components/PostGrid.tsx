@@ -63,7 +63,9 @@ export function PostGrid({
                       <span>{post.averageRating.toFixed(1)}</span>
                     </>
                   ) : (
-                    <span>Nog geen reviews</span>
+                    <span className="rounded-full bg-secondary px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-primary">
+                      Nieuw
+                    </span>
                   )}
                 </span>
                 <button
@@ -76,7 +78,7 @@ export function PostGrid({
                     size={16}
                     className={cn(liked ? "fill-primary text-primary" : "text-primary/60")}
                   />
-                  {post.likeCount}
+                  {post.likeCount > 0 ? post.likeCount : null}
                 </button>
               </div>
             </div>
