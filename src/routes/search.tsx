@@ -13,12 +13,12 @@ import { getMyState, toggleLike } from "@/lib/community.functions";
 export const Route = createFileRoute("/search")({
   head: () => ({
     meta: [
-      { title: "Zoeken — Pinora" },
+      { title: "Zoeken — Pixpin club" },
       {
         name: "description",
-        content: "Zoek in Pinora op titel, omschrijving of tags en vind je roze inspiratie.",
+        content: "Zoek in Pixpin club op titel, omschrijving of tags en vind je roze inspiratie.",
       },
-      { property: "og:title", content: "Zoeken in Pinora" },
+      { property: "og:title", content: "Zoeken in Pixpin club" },
       {
         property: "og:description",
         content: "Vind beautyfoto's op titel, omschrijving of tag.",

@@ -11,12 +11,12 @@ import { createPost } from "@/lib/community.functions";
 export const Route = createFileRoute("/_authenticated/upload")({
   head: () => ({
     meta: [
-      { title: "Foto plaatsen — Pinora" },
+      { title: "Foto plaatsen — Pixpin club" },
       {
         name: "description",
-        content: "Deel je eigen beautyfoto met titel, omschrijving en tags op Pinora.",
+        content: "Deel je eigen beautyfoto met titel, omschrijving en tags op Pixpin club.",
       },
-      { property: "og:title", content: "Foto plaatsen op Pinora" },
+      { property: "og:title", content: "Foto plaatsen op Pixpin club" },
       { property: "og:description", content: "Deel je beautymoment met de community." },
     ],
   }),
