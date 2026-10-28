@@ -17,7 +17,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       <header className="sticky top-0 z-20 flex items-center gap-3 border-b border-border/60 bg-background/85 px-4 py-3 backdrop-blur">
         <Link to="/" className="flex items-center gap-3">
           <BrandMark size={40} />
-          <span className="font-display text-2xl leading-none tracking-wide">Vør</span>
+          <span className="font-display text-2xl leading-none tracking-wide">StockIn</span>
         </Link>
       </header>
 

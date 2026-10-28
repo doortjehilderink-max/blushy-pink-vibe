@@ -45,17 +45,17 @@ export const Route = createFileRoute("/post/$id")({
     const title = loaderData?.post.title ?? "Post";
     return {
       meta: [
-        { title: `${title} — Vør` },
+        { title: `${title} — StockIn` },
         {
           name: "description",
           content:
             loaderData?.post.description ??
-            "Bekijk deze roze beauty-inspiratie op Vør, met hartjes en reviews.",
+            "Bekijk deze roze beauty-inspiratie op StockIn, met hartjes en reviews.",
         },
-        { property: "og:title", content: `${title} — Vør` },
+        { property: "og:title", content: `${title} — StockIn` },
         {
           property: "og:description",
-          content: loaderData?.post.description ?? "Roze beauty-inspiratie op Vør.",
+          content: loaderData?.post.description ?? "Roze beauty-inspiratie op StockIn.",
         },
       ],
     };

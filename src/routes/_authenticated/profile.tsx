@@ -20,12 +20,12 @@ import {
 export const Route = createFileRoute("/_authenticated/profile")({
   head: () => ({
     meta: [
-      { title: "Mijn profiel — Vør" },
+      { title: "Mijn profiel — StockIn" },
       {
         name: "description",
-        content: "Beheer je naam, bekijk je eigen posts en log uit bij Vør.",
+        content: "Beheer je naam, bekijk je eigen posts en log uit bij StockIn.",
       },
-      { property: "og:title", content: "Mijn profiel op Vør" },
+      { property: "og:title", content: "Mijn profiel op StockIn" },
       { property: "og:description", content: "Je naam, je posts en je account." },
     ],
   }),
