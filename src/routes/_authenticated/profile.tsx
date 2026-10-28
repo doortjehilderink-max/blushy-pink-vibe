@@ -20,12 +20,12 @@ import {
 export const Route = createFileRoute("/_authenticated/profile")({
   head: () => ({
     meta: [
-      { title: "Mijn profiel — Pixpin club" },
+      { title: "Mijn profiel — Pixpin" },
       {
         name: "description",
-        content: "Beheer je naam, bekijk je eigen posts en log uit bij Pixpin club.",
+        content: "Beheer je naam, bekijk je eigen posts en log uit bij Pixpin.",
       },
-      { property: "og:title", content: "Mijn profiel op Pixpin club" },
+      { property: "og:title", content: "Mijn profiel op Pixpin" },
       { property: "og:description", content: "Je naam, je posts en je account." },
     ],
   }),

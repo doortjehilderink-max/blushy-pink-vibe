@@ -30,7 +30,7 @@ export const getMyState = createServerFn({ method: "GET" })
         rating: r.rating,
         body: r.body,
       })),
-      displayName: profile?.display_name ?? "Pixpin club lid",
+      displayName: profile?.display_name ?? "Pixpin lid",
       avatarUrl: profile?.avatar_url ?? null,
       followingIds: (following ?? []).map((f) => f.following_id),
       followerCount: followerCount ?? 0,
@@ -86,7 +86,7 @@ export const createPost = createServerFn({ method: "POST" })
       .from("posts")
       .insert({
         user_id: userId,
-        author_name: profile?.display_name ?? "Pixpin club lid",
+        author_name: profile?.display_name ?? "Pixpin lid",
         image_url: data.imagePath,
         title: data.title,
         description: data.description || null,

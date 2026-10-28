@@ -7,12 +7,12 @@ import { listMembers } from "@/lib/community.functions";
 export const Route = createFileRoute("/members")({
   head: () => ({
     meta: [
-      { title: "Leden — Pixpin club" },
+      { title: "Leden — Pixpin" },
       {
         name: "description",
-        content: "Ontdek andere Pixpin club-leden en volg wie je inspireert.",
+        content: "Ontdek andere Pixpin-leden en volg wie je inspireert.",
       },
-      { property: "og:title", content: "Leden op Pixpin club" },
+      { property: "og:title", content: "Leden op Pixpin" },
       {
         property: "og:description",
         content: "Ontdek en volg andere leden in de roze community.",
