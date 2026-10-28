@@ -20,12 +20,12 @@ export const Route = createFileRoute("/user/$id")({
     const name = loaderData?.displayName ?? "Lid";
     return {
       meta: [
-        { title: `${name} — StockIn` },
+        { title: `${name} — Pinora` },
         {
           name: "description",
-          content: `Bekijk de roze beauty-posts van ${name} en volg dit StockIn lid.`,
+          content: `Bekijk de roze beauty-posts van ${name} en volg dit Pinora lid.`,
         },
-        { property: "og:title", content: `${name} op StockIn` },
+        { property: "og:title", content: `${name} op Pinora` },
         { property: "og:description", content: `De posts en hartjes van ${name}.` },
         { property: "og:type", content: "profile" },
         { name: "twitter:card", content: "summary_large_image" },

@@ -7,12 +7,12 @@ import { listMembers } from "@/lib/community.functions";
 export const Route = createFileRoute("/members")({
   head: () => ({
     meta: [
-      { title: "Leden — StockIn" },
+      { title: "Leden — Pinora" },
       {
         name: "description",
-        content: "Ontdek andere StockIn-leden en volg wie je inspireert.",
+        content: "Ontdek andere Pinora-leden en volg wie je inspireert.",
       },
-      { property: "og:title", content: "Leden op StockIn" },
+      { property: "og:title", content: "Leden op Pinora" },
       {
         property: "og:description",
         content: "Ontdek en volg andere leden in de roze community.",

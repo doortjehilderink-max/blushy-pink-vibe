@@ -12,7 +12,7 @@ export function BrandMark({ className, size = 40 }: { className?: string; size?:
     >
       <img
         src={brandMark}
-        alt="StockIn beeldmerk: meisje met blond haar en een roze bloem"
+        alt="Pinora beeldmerk: meisje met blond haar en een roze bloem"
         width={size}
         height={size}
         className="h-full w-full object-cover"
