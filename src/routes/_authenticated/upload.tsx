@@ -11,12 +11,12 @@ import { createPost } from "@/lib/community.functions";
 export const Route = createFileRoute("/_authenticated/upload")({
   head: () => ({
     meta: [
-      { title: "Foto plaatsen — StockIn" },
+      { title: "Foto plaatsen — Pinora" },
       {
         name: "description",
-        content: "Deel je eigen beautyfoto met titel, omschrijving en tags op StockIn.",
+        content: "Deel je eigen beautyfoto met titel, omschrijving en tags op Pinora.",
       },
-      { property: "og:title", content: "Foto plaatsen op StockIn" },
+      { property: "og:title", content: "Foto plaatsen op Pinora" },
       { property: "og:description", content: "Deel je beautymoment met de community." },
     ],
   }),
