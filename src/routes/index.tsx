@@ -27,13 +27,13 @@ const postsQuery = (limit: number) =>
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Pinora — roze beauty-community vol inspiratie" },
+      { title: "Pixpin club — roze beauty-community vol inspiratie" },
       {
         name: "description",
         content:
           "Ontdek zachte roze beauty-inspiratie, deel je eigen foto's, geef hartjes en lees reviews met sterren.",
       },
-      { property: "og:title", content: "Pinora — roze beauty-community" },
+      { property: "og:title", content: "Pixpin club — roze beauty-community" },
       {
         property: "og:description",
         content: "Deel foto's, geef hartjes en schrijf reviews in een verfijnde roze community.",
