@@ -13,12 +13,12 @@ import { getMyState, toggleLike } from "@/lib/community.functions";
 export const Route = createFileRoute("/search")({
   head: () => ({
     meta: [
-      { title: "Zoeken — Vør" },
+      { title: "Zoeken — StockIn" },
       {
         name: "description",
-        content: "Zoek in Vør op titel, omschrijving of tags en vind je roze inspiratie.",
+        content: "Zoek in StockIn op titel, omschrijving of tags en vind je roze inspiratie.",
       },
-      { property: "og:title", content: "Zoeken in Vør" },
+      { property: "og:title", content: "Zoeken in StockIn" },
       {
         property: "og:description",
         content: "Vind beautyfoto's op titel, omschrijving of tag.",

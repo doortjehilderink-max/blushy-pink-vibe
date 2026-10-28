@@ -8,13 +8,13 @@ import { BrandMark } from "@/components/BrandMark";
 export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
-      { title: "Inloggen of registreren — Vør" },
+      { title: "Inloggen of registreren — StockIn" },
       {
         name: "description",
         content:
-          "Maak een Vør-account aan of log in om foto's te plaatsen, hartjes te geven en reviews te schrijven.",
+          "Maak een StockIn-account aan of log in om foto's te plaatsen, hartjes te geven en reviews te schrijven.",
       },
-      { property: "og:title", content: "Word lid van Vør" },
+      { property: "og:title", content: "Word lid van StockIn" },
       {
         property: "og:description",
         content: "Log in om te plaatsen, hartjes te geven en sterren te delen.",
@@ -50,7 +50,7 @@ function AuthPage() {
           toast.success("Bijna klaar! Bevestig je e-mail via de link die we stuurden.");
           return;
         }
-        toast.success("Welkom bij Vør!");
+        toast.success("Welkom bij StockIn!");
         void navigate({ to: "/" });
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
@@ -83,7 +83,7 @@ function AuthPage() {
     <div className="mx-auto flex min-h-screen w-full max-w-md flex-col justify-center px-5 py-10">
       <div className="mb-8 text-center">
         <BrandMark size={104} className="mb-4" />
-        <h1 className="font-display text-4xl">Vør</h1>
+        <h1 className="font-display text-4xl">StockIn</h1>
         <p className="mt-2 text-sm text-muted-foreground">
           Jouw zachte, roze plek voor beauty-inspiratie.
         </p>
